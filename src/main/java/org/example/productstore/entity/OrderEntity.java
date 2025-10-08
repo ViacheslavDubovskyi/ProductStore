@@ -6,23 +6,22 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
 @Builder
-@Table(name = "products")
+@Table(name = "orders")
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductEntity {
+public class OrderEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String name;
-    private double price;
-    private String description;
+    private int orderNumber;
 
-    @Column(name = "creation_date")
-    private LocalDate creationDate;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemEntity> items = new ArrayList<>();
 }

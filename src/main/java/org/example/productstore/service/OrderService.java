@@ -14,4 +14,8 @@ public interface OrderService {
     public OrderDTO addItem(ItemDTO itemDTO, int orderId);
 
     public OrderDTO findById(int id);
+
+    public void deleteOrder(int orderId);
+
+    public void removeItem(int itemId);
 }

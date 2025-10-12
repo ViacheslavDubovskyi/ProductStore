@@ -8,6 +8,7 @@ import org.example.productstore.entity.OrderEntity;
 import org.example.productstore.entity.ProductEntity;
 import org.example.productstore.mapper.ItemMapper;
 import org.example.productstore.mapper.OrderMapper;
+import org.example.productstore.repository.ItemRepository;
 import org.example.productstore.repository.OrderRepository;
 import org.example.productstore.service.OrderService;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.List;
 public class OrderServiceBean implements OrderService {
 
     private OrderRepository orderRepository;
+    private ItemRepository itemRepository;
 
     public List<OrderDTO> findAll() {
         return orderRepository.findAll().stream().map(OrderMapper::toDTO).toList();
@@ -43,5 +45,14 @@ public class OrderServiceBean implements OrderService {
 
     public OrderDTO findById(int id) {
         return orderRepository.findById(id).map(OrderMapper::toDTO).orElseThrow();
+    }
+
+    public void removeItem(int itemId) {
+        itemRepository.deleteById(itemId);
+    }
+
+    public void deleteOrder(int orderId) {
+        OrderEntity orderEntity = orderRepository.findById(orderId).orElseThrow();
+        orderRepository.delete(orderEntity);
     }
 }

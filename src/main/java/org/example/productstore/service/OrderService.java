@@ -17,5 +17,5 @@ public interface OrderService {
 
     public void deleteOrder(int orderId);
 
-    public void removeItem(int itemId);
+    public void removeItem(int itemId, int orderId);
 }

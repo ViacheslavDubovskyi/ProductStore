@@ -47,8 +47,16 @@ public class OrderServiceBean implements OrderService {
         return orderRepository.findById(id).map(OrderMapper::toDTO).orElseThrow();
     }
 
-    public void removeItem(int itemId) {
-        itemRepository.deleteById(itemId);
+    public void removeItem(int itemId, int orderId) {
+        OrderEntity orderBuild = OrderEntity.builder().id(orderId).build();
+
+        ItemEntity itemBuild = ItemEntity.builder().id(itemId).build();
+        itemBuild.setOrder(orderBuild);
+
+        if (orderBuild.getItems() != null) {
+            orderBuild.getItems().remove(itemBuild);
+        }
+        orderRepository.save(orderBuild);
     }
 
     public void deleteOrder(int orderId) {

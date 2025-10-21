@@ -20,7 +20,6 @@ import java.util.List;
 public class OrderServiceBean implements OrderService {
 
     private OrderRepository orderRepository;
-    private ItemRepository itemRepository;
 
     public List<OrderDTO> findAll() {
         return orderRepository.findAll().stream().map(OrderMapper::toDTO).toList();

@@ -8,7 +8,6 @@ import org.example.productstore.entity.OrderEntity;
 import org.example.productstore.entity.ProductEntity;
 import org.example.productstore.mapper.ItemMapper;
 import org.example.productstore.mapper.OrderMapper;
-import org.example.productstore.repository.ItemRepository;
 import org.example.productstore.repository.OrderRepository;
 import org.example.productstore.service.OrderService;
 import org.springframework.stereotype.Service;

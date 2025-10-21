@@ -9,6 +9,7 @@ import org.example.productstore.entity.ProductEntity;
 import org.example.productstore.mapper.ItemMapper;
 import org.example.productstore.mapper.OrderMapper;
 import org.example.productstore.repository.OrderRepository;
+import org.example.productstore.repository.ProductRepository;
 import org.example.productstore.service.OrderService;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,7 @@ import java.util.List;
 public class OrderServiceBean implements OrderService {
 
     private OrderRepository orderRepository;
+    private ProductRepository productRepository;
 
     public List<OrderDTO> findAll() {
         return orderRepository.findAll().stream().map(OrderMapper::toDTO).toList();
@@ -29,15 +31,16 @@ public class OrderServiceBean implements OrderService {
     }
 
     public OrderDTO addItem(ItemDTO itemDTO, int orderId) {
-        OrderEntity orderBuild = OrderEntity.builder().id(orderId).build();
+        OrderEntity order = orderRepository.findById(orderId).orElseThrow();
         ItemEntity itemEntity = ItemMapper.toEntity(itemDTO);
-        itemEntity.setOrder(orderBuild);
+        ProductEntity product = productRepository.findById(itemDTO.getProductId()).orElseThrow();
 
-        ProductEntity productBuild = ProductEntity.builder().id(itemEntity.getProduct().getId()).build();
-        itemEntity.setProduct(productBuild);
+        itemEntity.setProduct(product);
+        itemEntity.setOrder(order);
 
-        orderBuild.getItems().add(itemEntity);
-        orderRepository.save(orderBuild);
+        order.getItems().add(itemEntity);
+        orderRepository.save(order);
+
         return findById(orderId);
     }
 
@@ -46,15 +49,9 @@ public class OrderServiceBean implements OrderService {
     }
 
     public void removeItem(int itemId, int orderId) {
-        OrderEntity orderBuild = OrderEntity.builder().id(orderId).build();
-
-        ItemEntity itemBuild = ItemEntity.builder().id(itemId).build();
-        itemBuild.setOrder(orderBuild);
-
-        if (orderBuild.getItems() != null) {
-            orderBuild.getItems().remove(itemBuild);
-        }
-        orderRepository.save(orderBuild);
+        OrderEntity order = orderRepository.findById(orderId).orElseThrow();
+        order.getItems().removeIf(item -> item.getId() == itemId);
+        orderRepository.save(order);
     }
 
     public void deleteOrder(int orderId) {

@@ -1,6 +1,7 @@
 package org.example.productstore.controller.impl;
 
 import lombok.AllArgsConstructor;
+import org.example.productstore.controller.OrderController;
 import org.example.productstore.dto.ItemDTO;
 import org.example.productstore.dto.OrderDTO;
 import org.example.productstore.service.OrderService;
@@ -10,7 +11,7 @@ import java.util.List;
 
 @RestController("/orders")
 @AllArgsConstructor
-public class OrderControllerBean {
+public class OrderControllerBean implements OrderController {
 
     private OrderService orderService;
 

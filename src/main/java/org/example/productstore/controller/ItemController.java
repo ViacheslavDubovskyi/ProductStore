@@ -1,10 +1,10 @@
-package org.example.productstore.service;
+package org.example.productstore.controller;
 
 import org.example.productstore.dto.ItemDTO;
 
 import java.util.List;
 
-public interface ItemService {
+public interface ItemController {
 
     public List<ItemDTO> findAll();
 
@@ -13,4 +13,6 @@ public interface ItemService {
     public ItemDTO findById(int id);
 
     public ItemDTO changeQuantity(int itemId, int newQuantity);
+
+    public void deleteItem(int itemId, int orderId);
 }

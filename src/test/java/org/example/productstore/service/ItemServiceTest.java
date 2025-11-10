@@ -41,7 +41,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void getAllProducts() {
+    public void getAllItems() {
 
         ItemDTO item1 = ItemDTO.builder().id(1).build();
         ItemDTO item2 = ItemDTO.builder().id(2).build();
@@ -57,7 +57,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void getProductById() {
+    public void getItemById() {
         ItemDTO item = ItemDTO.builder().id(1).build();
         ItemEntity entity = ItemMapper.toEntity(item);
         when(repository.findById(any())).thenReturn(Optional.of(entity));
@@ -66,7 +66,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void changeQuantityofItem() {
+    public void changeQuantityOfItem() {
         ItemEntity entity = ItemEntity.builder().id(1).quantity(2).build();
         when(repository.findById(1)).thenReturn(Optional.of(entity));
         when(repository.save(any(ItemEntity.class))).thenReturn(entity);

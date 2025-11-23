@@ -134,5 +134,6 @@ public class OrderServiceTest {
         assertEquals(orderId, order.getId());
         assertEquals(2, order.getItems().size());
         Mockito.verify(orderRepository).findById(orderId);
+        Mockito.verify(orderRepository).save(order);
     }
 }

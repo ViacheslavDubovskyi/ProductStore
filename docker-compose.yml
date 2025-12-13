@@ -1,0 +1,24 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - PG_HOST=db
+      - PG_SCHEMA=public
+      - PG_DATABASE=store
+      - PG_USERNAME=admin
+      - PG_PASSWORD=root
+    depends_on:
+      - db
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=store
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=root
+
+
+

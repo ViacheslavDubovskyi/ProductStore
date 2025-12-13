@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/orders")
+@RestController
+@RequestMapping("/orders")
 @AllArgsConstructor
 public class OrderControllerBean implements OrderController {
 

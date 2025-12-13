@@ -1,4 +1,4 @@
-FROM openjdk:21
+FROM eclipse-temurin:21-jdk
 EXPOSE 8080
 ENV JAR_FILE=target/ProductStore-*.jar
 

@@ -33,7 +33,7 @@ public class ItemControllerBean implements ItemController {
     }
 
     @PatchMapping("/{itemId}")
-    public ItemDTO changeQuantity(@PathVariable("itemId") int itemId, @RequestParam("newQuantity") int newQuantity) {
+    public ItemDTO changeQuantity(@PathVariable int itemId, @RequestParam("newQuantity") int newQuantity) {
         return itemService.changeQuantity(itemId, newQuantity);
     }
 

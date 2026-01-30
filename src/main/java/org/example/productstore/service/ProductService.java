@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface ProductService {
 
-    public List<ProductDTO> findAll();
+    List<ProductDTO> findAll();
 
-    public ProductDTO save(ProductDTO productDTO);
+    ProductDTO save(ProductDTO productDTO);
 
-    public void remove(int id);
+    void remove(int id);
 
-    public ProductDTO findById(int id);
+    ProductDTO findById(int id);
 }

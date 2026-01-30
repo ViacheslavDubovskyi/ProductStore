@@ -7,15 +7,15 @@ import java.util.List;
 
 public interface OrderService {
 
-    public List<OrderDTO> findAll();
+    List<OrderDTO> findAll();
 
-    public OrderDTO save(OrderDTO orderDTO);
+    OrderDTO save(OrderDTO orderDTO);
 
-    public OrderDTO addItem(ItemDTO itemDTO, int orderId);
+    OrderDTO addItem(ItemDTO itemDTO, int orderId);
 
-    public OrderDTO findById(int id);
+    OrderDTO findById(int id);
 
-    public void deleteOrder(int orderId);
+    void deleteOrder(int orderId);
 
-    public void removeItem(int itemId, int orderId);
+    void removeItem(int itemId, int orderId);
 }

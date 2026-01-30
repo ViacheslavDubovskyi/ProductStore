@@ -7,15 +7,15 @@ import java.util.List;
 
 public interface OrderController {
 
-    public List<OrderDTO> findAll();
+    List<OrderDTO> findAll();
 
-    public OrderDTO findById(int id);
+    OrderDTO findById(int id);
 
-    public OrderDTO save(OrderDTO orderDTO);
+    OrderDTO save(OrderDTO orderDTO);
 
-    public OrderDTO addItem(ItemDTO itemDTO, int orderId);
+    OrderDTO addItem(ItemDTO itemDTO, int orderId);
 
-    public void removeItem(int orderId, int itemId);
+    void removeItem(int orderId, int itemId);
 
-    public void deleteOrder(int id);
+    void deleteOrder(int id);
 }

@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface ItemService {
 
-    public List<ItemDTO> findAll();
+    List<ItemDTO> findAll();
 
-    public ItemDTO save(ItemDTO itemDTO);
+    ItemDTO save(ItemDTO itemDTO);
 
-    public ItemDTO findById(int id);
+    ItemDTO findById(int id);
 
-    public ItemDTO changeQuantity(int itemId, int newQuantity);
+    ItemDTO changeQuantity(int itemId, int newQuantity);
 }

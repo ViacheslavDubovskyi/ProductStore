@@ -1,5 +1,6 @@
 package org.example.productstore.service.impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.example.productstore.dto.ItemDTO;
 import org.example.productstore.entity.ItemEntity;
@@ -25,7 +26,9 @@ public class ItemServiceBean implements ItemService {
     }
 
     public ItemDTO findById(int id) {
-        return itemRepository.findById(id).map(ItemMapper::toDTO).orElseThrow();
+        return itemRepository.findById(id)
+                .map(ItemMapper::toDTO)
+                .orElseThrow(() -> new EntityNotFoundException("Item with id=" + id + " not found"));
     }
 
     public ItemDTO changeQuantity(int itemId, int newQuantity) {

@@ -1,13 +1,12 @@
 package org.example.productstore.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityNotFoundException;
 import org.example.productstore.controller.impl.ProductControllerBean;
 import org.example.productstore.dto.ProductDTO;
 import org.example.productstore.service.ProductService;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
@@ -17,12 +16,12 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(MockitoExtension.class)
 @WebMvcTest(ProductControllerBean.class)
 public class ProductControllerTest {
 
@@ -92,5 +91,23 @@ public class ProductControllerTest {
                 .andExpect(status().isOk());
 
         Mockito.verify(productService).remove(1);
+    }
+
+    @Test
+    void not_found() throws Exception {
+        when(productService.findById(1))
+                .thenThrow(new EntityNotFoundException());
+
+        mockMvc.perform(get("/products/{id}", 1))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void deleteProduct_notFound() throws Exception {
+        doThrow(new EntityNotFoundException("Product with id=111 not found"))
+                .when(productService)
+                .remove(111);
+        mockMvc.perform(delete("/products/{id}", 111))
+                .andExpect(status().isNotFound());
     }
 }

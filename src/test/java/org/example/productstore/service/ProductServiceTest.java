@@ -69,9 +69,8 @@ public class ProductServiceTest {
 
     @Test
     public void deleteProductById() {
-        ProductRepository spy = Mockito.spy(ProductRepository.class);
-        ProductServiceBean spyService = new ProductServiceBean(spy);
-        spyService.remove(111);
-        Mockito.verify(spy).deleteById(111);
+        when(repository.existsById(111)).thenReturn(true);
+        service.remove(111);
+        Mockito.verify(repository).deleteById(111);
     }
 }

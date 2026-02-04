@@ -1,5 +1,6 @@
 package org.example.productstore.service.impl;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.example.productstore.dto.ProductDTO;
 import org.example.productstore.entity.ProductEntity;
@@ -29,10 +30,14 @@ public class ProductServiceBean implements ProductService {
     }
 
     public void remove(int id) {
+        if (!productRepository.existsById(id)) {
+            throw new EntityNotFoundException("Product with id=" + id + " not found");
+        }
         productRepository.deleteById(id);
     }
 
     public ProductDTO findById(int id) {
-        return productRepository.findById(id).map(ProductMapper::toDTO).orElseThrow();
+        return productRepository.findById(id).map(ProductMapper::toDTO).orElseThrow(() ->
+                new EntityNotFoundException("Product with id=" + id + " not found"));
     }
 }

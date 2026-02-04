@@ -1,14 +1,13 @@
 package org.example.productstore.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityNotFoundException;
 import org.example.productstore.controller.impl.ItemControllerBean;
 import org.example.productstore.dto.ItemDTO;
 import org.example.productstore.service.ItemService;
 import org.example.productstore.service.OrderService;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
@@ -20,7 +19,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(MockitoExtension.class)
 @WebMvcTest(ItemControllerBean.class)
 public class ItemControllerTest {
 
@@ -101,6 +99,27 @@ public class ItemControllerTest {
         mockMvc.perform(delete("/items/{itemId}", 1)
                         .param("orderId", "123"))
                 .andExpect(status().isOk());
+
+        Mockito.verify(orderService, Mockito.times(1)).removeItem(1, 123);
+    }
+
+    @Test
+    void getItemById_notFound() throws Exception {
+        Mockito.when(itemService.findById(1))
+                .thenThrow(new EntityNotFoundException("Item not found"));
+
+        mockMvc.perform(get("/items/{id}", 1))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void deleteItem_notFound() throws Exception {
+        Mockito.doThrow(new EntityNotFoundException("Item or order not found"))
+                .when(orderService).removeItem(1, 123);
+
+        mockMvc.perform(delete("/items/{itemId}", 1)
+                        .param("orderId", "123"))
+                .andExpect(status().isNotFound());
 
         Mockito.verify(orderService, Mockito.times(1)).removeItem(1, 123);
     }
